@@ -79,7 +79,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
     
     func setStatusText(){
         
-        var text = "Status: \(status)\n"
+        var text = "Status: \(status!)\n"
         text += "Distance: \(String(format: "%.2f m", distance))"
         statusTextView.text = text
         
@@ -130,6 +130,8 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
             
             self.connectToPusher()
             
+            
+            
         }
     }
     
@@ -145,6 +147,8 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
             
             if let data = data as? [String : AnyObject] {
                 
+                print("getting the data from the pusher")
+                
                 if let latitude  = Double(data["latitude"] as! String),
                    let longitude = Double(data["longitude"] as! String),
                     let heading   = Double(data["heading"] as! String) {
@@ -152,6 +156,8 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
                     self.status  = "Driver's location received"
                     self.heading = heading
                     self.updateLocation(latitude, longitude)
+                    
+                    print("it's all ok")
                     
                 }
                 
@@ -161,9 +167,13 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
         
         pusher.connect()
         status = "Waiting to receive location events..."
+        
+        print("connected to pusher")
     }
     
     func updateLocation(_ latitude: Double, _ longitude: Double){
+        
+        print("update location called")
         
         let location = CLLocation(latitude: latitude, longitude: longitude)
         self.distance = Float(location.distance(from: userLocation))
@@ -193,6 +203,8 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
         // Add it as a child of the car model
             self.modelNode.addChildNode(arrow)
             
+            print("updating location.....")
+            
         }
         else {
             // Begin animation
@@ -217,6 +229,8 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
         
         //Scale node
         self.modelNode.scale = scaleNode(location)
+        
+        print("postioning the model")
     }
     
     // In ARKit, rotation in the y-axis is counterclockwise (and handled in radians), so we need to substract 180 degrees and make the angle negative.
