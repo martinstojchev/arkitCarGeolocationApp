@@ -178,12 +178,12 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
         let location = CLLocation(latitude: latitude, longitude: longitude)
         self.distance = Float(location.distance(from: userLocation))
         
-        if self.modelNode == nil {
+        //if self.modelNode == nil {
              //let modelScene = SCNScene(named: "art.scnassets/Car.dae")!
              //self.modelNode = modelScene.rootNode.childNode(withName: rootNodeName, recursively: true)!
             // Replace the car 3D model with point
             let modelScene = SCNScene(named: "art.scnassets/pointScene.scn")
-            var ballShape = SCNSphere(radius: 0.60)
+            var ballShape = SCNSphere(radius: 0.40)
             ballShape.firstMaterial = SCNMaterial()
             var ballNode = SCNNode(geometry: ballShape)
             ballNode.name = "ball"
@@ -199,6 +199,10 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
             
         // Save original transform to calculate future rotations
             self.originalTransform = self.modelNode.transform
+           
+            // Begin animation
+            //SCNTransaction.begin()
+            //SCNTransaction.animationDuration = 1.0
             
         // Position the model in the correct place
             positionModel(location)
@@ -213,20 +217,20 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
         // Add it as a child of the car model
             self.modelNode.addChildNode(arrow)
             
+            // End animation
+           // SCNTransaction.commit()
+            
             print("updating location.....")
             
-        }
-        else {
-            // Begin animation
-            SCNTransaction.begin()
-            SCNTransaction.animationDuration = 1.0
+       // }
+     //   else {
+            
             
             // Position the model in the correct place
-            positionModel(location)
+            //positionModel(location)
             
-            // End animation
-            SCNTransaction.commit()
-        }
+            
+       // }
     }
     
     func positionModel(_ location: CLLocation) {
