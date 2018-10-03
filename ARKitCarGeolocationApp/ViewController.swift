@@ -179,9 +179,19 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
         self.distance = Float(location.distance(from: userLocation))
         
         if self.modelNode == nil {
-             let modelScene = SCNScene(named: "art.scnassets/Car.dae")!
-             self.modelNode = modelScene.rootNode.childNode(withName: rootNodeName, recursively: true)!
-        
+             //let modelScene = SCNScene(named: "art.scnassets/Car.dae")!
+             //self.modelNode = modelScene.rootNode.childNode(withName: rootNodeName, recursively: true)!
+            // Replace the car 3D model with point
+            let modelScene = SCNScene(named: "art.scnassets/pointScene.scn")
+            var ballShape = SCNSphere(radius: 0.60)
+            ballShape.firstMaterial = SCNMaterial()
+            var ballNode = SCNNode(geometry: ballShape)
+            ballNode.name = "ball"
+            modelScene?.rootNode.addChildNode(ballNode)
+            self.modelNode = modelScene?.rootNode.childNode(withName: "ball", recursively: true)
+            
+            
+            
         //You need to move the pivot of the model to its center in the y-axis, so it can be rotated without changing its position
         
             let (minBox, maxBox) = self.modelNode.boundingBox
