@@ -24,6 +24,8 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
     var originalTransform: SCNMatrix4!
     var heading: Double! = 0.0
     
+    var pointPositions: [SCNVector3] = []
+    
     var distance: Float! = 0.0 {
       
         didSet {
@@ -216,6 +218,32 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
             arrow.position = SCNVector3Make(0, 4, 0)
         // Add it as a child of the car model
             self.modelNode.addChildNode(arrow)
+        
+        // Draw the line between the last two points from pointPositions array
+        
+        if (pointPositions.count == 2){
+            
+             let startPointPosition = pointPositions[0]
+             let endPointPosition   = pointPositions[1]
+            
+            print("startPointPosition: \(startPointPosition)")
+            print("endPointPosition: \(endPointPosition)")
+            
+            let line = SCNGeometry.line(from: startPointPosition, to: endPointPosition)
+            line.firstMaterial = SCNMaterial()
+            line.firstMaterial?.fillMode = .fill
+            let lineNode = SCNNode(geometry: line)
+            lineNode.position = SCNVector3Make(0, -2, 0)
+            
+            sceneView.scene.rootNode.addChildNode(lineNode)
+            
+            pointPositions.remove(at: 0)
+            print("deleted the first element from the poinPoints array, count after removing is: \(pointPositions.count) ")
+                
+        }
+        else {
+            print("pointPositions count < 2 : \(pointPositions.count) ")
+        }
             
             // End animation
            // SCNTransaction.commit()
@@ -240,6 +268,10 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
         
         // Translate node
         self.modelNode.position = translateNode(location)
+        
+        // Add the point position to pointPosition array to use it later for drawing 3d line between them
+        pointPositions.append(self.modelNode.position)
+        print("added to pointPositions: \(self.modelNode.position)")
         
         //Scale node
         self.modelNode.scale = scaleNode(location)
@@ -342,5 +374,16 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
     
 
 
+}
+
+extension SCNGeometry {
+    class func line(from vector1: SCNVector3, to vector2: SCNVector3) -> SCNGeometry {
+        let indices: [Int32] = [0, 1]
+        let source = SCNGeometrySource(vertices: [vector1, vector2])
+        let element = SCNGeometryElement(indices: indices, primitiveType: .line)
+        element.pointSize = 15
+        
+        return SCNGeometry(sources: [source], elements: [element])
+    }
 }
 
