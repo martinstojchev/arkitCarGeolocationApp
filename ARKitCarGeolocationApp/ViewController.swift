@@ -293,8 +293,8 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
     
     func scaleNode(_ location: CLLocation) -> SCNVector3 {
         
-        let scale = min( max(Float(1000 / distance), 1.5), 3)
-        return SCNVector3(x: scale, y: scale, z: scale)
+        //let scale = min( max(Float(1000 / distance), 1.5), 3)
+        return SCNVector3(x: 3, y: 3, z: 3)
     }
     
     // To translate the node, you have to calculate the transformation matrix and get the position values that matrix (from its fourth column, referenced by a zero-based index):
