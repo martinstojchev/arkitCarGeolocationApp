@@ -26,6 +26,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
     
     var pointPositions: [SCNVector3] = []
     
+    
     var distance: Float! = 0.0 {
       
         didSet {
@@ -153,11 +154,14 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
                 
                 if let latitude  = Double(data["latitude"] as! String),
                    let longitude = Double(data["longitude"] as! String),
-                    let heading   = Double(data["heading"] as! String) {
+                    let heading   = Double(data["heading"] as! String){
+                    
+                    let instructions = data["instructions"] as? String
+                    print("instructions: \(instructions!)")
                     
                     self.status  = "Driver's location received"
                     self.heading = heading
-                    self.updateLocation(latitude, longitude)
+                    self.updateLocation(latitude, longitude, instructions!)
                     
                     print("it's all ok")
                     
@@ -173,7 +177,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
         print("connected to pusher")
     }
     
-    func updateLocation(_ latitude: Double, _ longitude: Double){
+    func updateLocation(_ latitude: Double, _ longitude: Double, _ instructions: String){
         
         print("update location called")
         
@@ -211,9 +215,20 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
             
         // Add the model to the scene
             sceneView.scene.rootNode.addChildNode(self.modelNode)
-            
+        
+        let arrow: SCNNode!
+        
+        if (instructions.contains("left")){
+            arrow = makeBillboardNode("⬅️".image()!)
+        }
+        else if (instructions.contains("right")){
+            arrow = makeBillboardNode("➡️".image()!)
+        }
+        else {
+            arrow = SCNNode()
+        }
         // Create arrow from the emoji
-            let arrow = makeBillboardNode("⬇️".image()!)
+        
         // Postion it on top of the car
             arrow.position = SCNVector3Make(0, 4, 0)
         // Add it as a child of the car model
