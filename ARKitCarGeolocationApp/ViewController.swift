@@ -25,7 +25,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
     var heading: Double! = 0.0
     
     var pointPositions: [SCNVector3] = []
-    
+    var locationPoints: [Location] = []
     
     var distance: Float! = 0.0 {
       
@@ -41,15 +41,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
         }
     }
     
-    let pusher = Pusher(
-        key:"9534396ca6dfb8b40428",
-        options: PusherClientOptions(
-            authMethod: .inline(secret: "6a5f535d93487250f10b"),
-            host: .cluster("eu")
-      )
-    )
-    
-    var channel: PusherChannel!
+
     
     
     override func viewDidLoad() {
@@ -129,9 +121,9 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
         
         if let location = locations.last {
             userLocation = location
-            status = "Connecting to Pusher..."
+            status = "User location founded"
             
-            self.connectToPusher()
+            self.getLocationsForAR()
             
             
             
@@ -140,41 +132,54 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
     
     //Mark: - Utility methods
     
-    func connectToPusher(){
+    func getLocationsForAR(){
         
-        //subscribe to channel and bind to event
+        var location1 = Location(latitude: 41.99956834316254, longitude: 21.42547597676179, heading: 0, instructions: "")
+        locationPoints.append(location1)
+        var location2 = Location(latitude: 41.99934488162398, longitude: 21.425885516550835, heading: 0, instructions: "")
+        locationPoints.append(location2)
+        var location3 = Location(latitude: 41.999316550791264, longitude: 21.4259374843505, heading: 0, instructions: "Turn right onto Bulevar Sveti Kliment Ohridski")
+        locationPoints.append(location3)
+        var location4 = Location(latitude: 41.9989355932921, longitude: 21.42563942387369, heading: 0, instructions: "")
+        locationPoints.append(location4)
+        var location5 = Location(latitude: 41.99872705154121, longitude: 21.42551067784092, heading: 0, instructions: "")
+        locationPoints.append(location5)
+        var location6 = Location(latitude: 41.99857332743704, longitude:21.425441610958757, heading: 0, instructions: "")
+        locationPoints.append(location6)
+        var location7 = Location(latitude: 41.99827375821768, longitude: 21.42535971976477, heading: 0, instructions: "")
+        locationPoints.append(location7)
+        var location8 = Location(latitude: 41.998232183977954, longitude: 21.42534840419549, heading: 0, instructions: "Turn left onto Bulevar Partizanski Odredi")
+        locationPoints.append(location8)
+        var location9 = Location(latitude: 41.998167894780636, longitude:21.425554934289664 , heading: 0, instructions: "Turn left onto Bulevar Sveti Kliment Ohridski")
+        locationPoints.append(location9)
+        var location10 = Location(latitude:41.99847433716057 , longitude: 21.42565115853813, heading: 0, instructions: "")
+        locationPoints.append(location10)
+        var location11 = Location(latitude: 41.99856905266642, longitude: 21.42568099811342, heading: 0, instructions: "")
+        locationPoints.append(location11)
+        var location12 = Location(latitude: 41.99875018559395, longitude: 21.425779904570874, heading: 0, instructions: "")
+        locationPoints.append(location12)
+        var location13 = Location(latitude: 41.99909862130879, longitude: 21.426021471020306, heading: 0, instructions: "")
+        locationPoints.append(location13)
+        var location14 = Location(latitude: 41.99913642369211, longitude: 21.426046784367884, heading: 0, instructions: "Turn right onto Ulica Orce Nikolov")
+        locationPoints.append(location14)
+        var location15 = Location(latitude: 41.999042294919484, longitude: 21.426239232864788, heading: 0, instructions: "The destination is on your left")
+        locationPoints.append(location15)
         
-//        let channel = pusher.subscribe("private-channel")
-//
-//        let _ = channel.bind(eventName: "client-new-location", callback: { (data: Any?) -> Void in
-//
-//            if let data = data as? [String : AnyObject] {
-//
-//                print("getting the data from the pusher")
-//
-//                if let latitude  = Double(data["latitude"] as! String),
-//                   let longitude = Double(data["longitude"] as! String),
-//                    let heading   = Double(data["heading"] as! String){
-//
-//                    let instructions = data["instructions"] as? String
-//                    print("instructions: \(instructions!)")
-//
-//                    self.status  = "Driver's location received"
-//                    self.heading = heading
-//                    self.updateLocation(latitude, longitude, instructions!)
-//
-//                    print("it's all ok")
-//
-//                }
-//
-//
-//            }
-//        })
-//
-//        pusher.connect()
-//        status = "Waiting to receive location events..."
-//
-//        print("connected to pusher")
+        for location in locationPoints {
+            
+            self.heading = location.getHeading()
+            
+            let latitude = location.getLatitude()
+            let longitude = location.getLongitude()
+            let instructions = location.getInstructions()
+            
+            self.updateLocation(latitude, longitude, instructions)
+            
+            
+        }
+        
+        self.status = "All location pinned on the map"
+        
         
         
         
