@@ -159,38 +159,49 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
     
     func getLocationsForAR(){
         
-        var location1 = Location(latitude: 41.99956834316254, longitude: 21.42547597676179, heading: 0, instructions: "")
-        locationPoints.append(location1)
-        var location2 = Location(latitude: 41.99934488162398, longitude: 21.425885516550835, heading: 0, instructions: "")
-        locationPoints.append(location2)
-        var location3 = Location(latitude: 41.999316550791264, longitude: 21.4259374843505, heading: 0, instructions: "Turn right onto Bulevar Sveti Kliment Ohridski")
-        locationPoints.append(location3)
-        var location4 = Location(latitude: 41.9989355932921, longitude: 21.42563942387369, heading: 0, instructions: "")
-        locationPoints.append(location4)
-        var location5 = Location(latitude: 41.99872705154121, longitude: 21.42551067784092, heading: 0, instructions: "")
-        locationPoints.append(location5)
-        var location6 = Location(latitude: 41.99857332743704, longitude:21.425441610958757, heading: 0, instructions: "")
-        locationPoints.append(location6)
-        var location7 = Location(latitude: 41.99827375821768, longitude: 21.42535971976477, heading: 0, instructions: "")
-        locationPoints.append(location7)
-        var location8 = Location(latitude: 41.998232183977954, longitude: 21.42534840419549, heading: 0, instructions: "Turn left onto Bulevar Partizanski Odredi")
-        locationPoints.append(location8)
-        var location9 = Location(latitude: 41.998167894780636, longitude:21.425554934289664 , heading: 0, instructions: "Turn left onto Bulevar Sveti Kliment Ohridski")
-        locationPoints.append(location9)
-        var location10 = Location(latitude:41.99847433716057 , longitude: 21.42565115853813, heading: 0, instructions: "")
-        locationPoints.append(location10)
-        var location11 = Location(latitude: 41.99856905266642, longitude: 21.42568099811342, heading: 0, instructions: "")
-        locationPoints.append(location11)
-        var location12 = Location(latitude: 41.99875018559395, longitude: 21.425779904570874, heading: 0, instructions: "")
-        locationPoints.append(location12)
-        var location13 = Location(latitude: 41.99909862130879, longitude: 21.426021471020306, heading: 0, instructions: "")
-        locationPoints.append(location13)
-        var location14 = Location(latitude: 41.99913642369211, longitude: 21.426046784367884, heading: 0, instructions: "Turn right onto Ulica Orce Nikolov")
-        locationPoints.append(location14)
-        var location15 = Location(latitude: 41.999042294919484, longitude: 21.426239232864788, heading: 0, instructions: "The destination is on your left")
-        locationPoints.append(location15)
-        var endLocation = Location(latitude: 41.99887386225044, longitude: 21.426157140049934, heading: 0, instructions: "end")
-        locationPoints.append(endLocation)
+//        var location1 = Location(latitude: 41.99956834316254, longitude: 21.42547597676179, heading: 0, instructions: "")
+//        locationPoints.append(location1)
+//        var location2 = Location(latitude: 41.99934488162398, longitude: 21.425885516550835, heading: 0, instructions: "")
+//        locationPoints.append(location2)
+//        var location3 = Location(latitude: 41.999316550791264, longitude: 21.4259374843505, heading: 0, instructions: "Turn right onto Bulevar Sveti Kliment Ohridski")
+//        locationPoints.append(location3)
+//        var location4 = Location(latitude: 41.9989355932921, longitude: 21.42563942387369, heading: 0, instructions: "")
+//        locationPoints.append(location4)
+//        var location5 = Location(latitude: 41.99872705154121, longitude: 21.42551067784092, heading: 0, instructions: "")
+//        locationPoints.append(location5)
+//        var location6 = Location(latitude: 41.99857332743704, longitude:21.425441610958757, heading: 0, instructions: "")
+//        locationPoints.append(location6)
+//        var location7 = Location(latitude: 41.99827375821768, longitude: 21.42535971976477, heading: 0, instructions: "")
+//        locationPoints.append(location7)
+//        var location8 = Location(latitude: 41.998232183977954, longitude: 21.42534840419549, heading: 0, instructions: "Turn left onto Bulevar Partizanski Odredi")
+//        locationPoints.append(location8)
+//        var location9 = Location(latitude: 41.998167894780636, longitude:21.425554934289664 , heading: 0, instructions: "Turn left onto Bulevar Sveti Kliment Ohridski")
+//        locationPoints.append(location9)
+//        var location10 = Location(latitude:41.99847433716057 , longitude: 21.42565115853813, heading: 0, instructions: "")
+//        locationPoints.append(location10)
+//        var location11 = Location(latitude: 41.99856905266642, longitude: 21.42568099811342, heading: 0, instructions: "")
+//        locationPoints.append(location11)
+//        var location12 = Location(latitude: 41.99875018559395, longitude: 21.425779904570874, heading: 0, instructions: "")
+//        locationPoints.append(location12)
+//        var location13 = Location(latitude: 41.99909862130879, longitude: 21.426021471020306, heading: 0, instructions: "")
+//        locationPoints.append(location13)
+//        var location14 = Location(latitude: 41.99913642369211, longitude: 21.426046784367884, heading: 0, instructions: "Turn right onto Ulica Orce Nikolov")
+//        locationPoints.append(location14)
+//        var location15 = Location(latitude: 41.999042294919484, longitude: 21.426239232864788, heading: 0, instructions: "The destination is on your left")
+//        locationPoints.append(location15)
+//        var endLocation = Location(latitude: 41.99887386225044, longitude: 21.426157140049934, heading: 0, instructions: "end")
+//        locationPoints.append(endLocation)
+        
+        annotationsOnMap.removeFirst()
+        
+        for annotation in annotationsOnMap {
+            let location = Location(latitude: annotation.coordinate.latitude,
+                                    longitude: annotation.coordinate.longitude,
+                                    heading: 0,
+                                    instructions: annotation.locationName)
+            
+            locationPoints.append(location)
+        }
         
         
         for location in locationPoints {
@@ -262,7 +273,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
         else if (instructions.contains("right")){
             arrow = makeBillboardNode("➡️".image()!)
         }
-        else if (instructions.contains("end")){
+        else if (instructions.contains("End point")){
             arrow = makeBillboardNode("🚩".image()!)
         }
         else {
@@ -537,10 +548,24 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
                                               coordinate: pinPoint)
             
             annotationsOnMap.append(pinAnnotation)
-            
             mapView.addAnnotation(pinAnnotation)
             
+            
         }
+        
+        //pin the ending point
+        
+        let endingLocationPin    = MyAnnotations(title: "End",
+                                                 locationName: "End point",
+                                                 discipline: "",
+                                                 coordinate: endPointCoordinates
+        )
+        
+        
+        annotationsOnMap.append(endingLocationPin)
+        mapView.addAnnotation(endingLocationPin)
+        print("endPointCoordinate: lat: \(endingLocationPin.coordinate.latitude), lon: \(endingLocationPin.coordinate.longitude)")
+        
         
         
     }
@@ -583,11 +608,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
                                                 coordinate: startPointCoordinates
         )
         
-        let endingLocationPin    = MyAnnotations(title: "End",
-                                                 locationName: "End point",
-                                                 discipline: "",
-                                                 coordinate: endPointCoordinates
-        )
+       
         
         //pin the starting point
         annotationsOnMap.append(startingLocationPin)
@@ -623,10 +644,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
         print("pinPointsCoordinate count: \(pinPointsCoordinate.count)")
         print("Finished iterating the points.....")
         
-        //pin the ending point
-        annotationsOnMap.append(endingLocationPin)
-        print("endPointCoordinate: lat: \(endingLocationPin.coordinate.latitude), lon: \(endingLocationPin.coordinate.longitude)")
-        mapView.addAnnotation(endingLocationPin)
+        
         
         
         
@@ -722,6 +740,21 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
     }
     
     @IBAction func showAR(_ sender: Any) {
+        
+        
+        for annotation in annotationsOnMap {
+            print("annotation step: \(annotation.locationName), annotationCoordinates: \(annotation.coordinate) ")
+        }
+        //show the ARCamera
+        mapView.isHidden = true
+        cancelButton.isHidden = true
+        showInARButton.isHidden = true
+        
+        sceneView.isHidden = false
+        statusTextView.isHidden = false
+        
+        
+        self.getLocationsForAR()
     }
     
     
