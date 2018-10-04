@@ -144,37 +144,41 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
         
         //subscribe to channel and bind to event
         
-        let channel = pusher.subscribe("private-channel")
+//        let channel = pusher.subscribe("private-channel")
+//
+//        let _ = channel.bind(eventName: "client-new-location", callback: { (data: Any?) -> Void in
+//
+//            if let data = data as? [String : AnyObject] {
+//
+//                print("getting the data from the pusher")
+//
+//                if let latitude  = Double(data["latitude"] as! String),
+//                   let longitude = Double(data["longitude"] as! String),
+//                    let heading   = Double(data["heading"] as! String){
+//
+//                    let instructions = data["instructions"] as? String
+//                    print("instructions: \(instructions!)")
+//
+//                    self.status  = "Driver's location received"
+//                    self.heading = heading
+//                    self.updateLocation(latitude, longitude, instructions!)
+//
+//                    print("it's all ok")
+//
+//                }
+//
+//
+//            }
+//        })
+//
+//        pusher.connect()
+//        status = "Waiting to receive location events..."
+//
+//        print("connected to pusher")
         
-        let _ = channel.bind(eventName: "client-new-location", callback: { (data: Any?) -> Void in
-            
-            if let data = data as? [String : AnyObject] {
-                
-                print("getting the data from the pusher")
-                
-                if let latitude  = Double(data["latitude"] as! String),
-                   let longitude = Double(data["longitude"] as! String),
-                    let heading   = Double(data["heading"] as! String){
-                    
-                    let instructions = data["instructions"] as? String
-                    print("instructions: \(instructions!)")
-                    
-                    self.status  = "Driver's location received"
-                    self.heading = heading
-                    self.updateLocation(latitude, longitude, instructions!)
-                    
-                    print("it's all ok")
-                    
-                }
-                
-                
-            }
-        })
         
-        pusher.connect()
-        status = "Waiting to receive location events..."
         
-        print("connected to pusher")
+        
     }
     
     func updateLocation(_ latitude: Double, _ longitude: Double, _ instructions: String){
