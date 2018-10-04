@@ -11,9 +11,12 @@ import ARKit
 import SceneKit
 import CoreLocation
 import PusherSwift
+import MapKit
 
 class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDelegate {
-
+    @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet weak var cancelButton: UIButton!
+    
     @IBOutlet weak var sceneView: ARSCNView!
     @IBOutlet weak var statusTextView: UITextView!
     
@@ -403,9 +406,21 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
         
     }
     
+    // Dealing with location stuff
+    
+
+    @IBAction func cancelRoute(_ sender: Any) {
+    
+    }
+    
 
 
 }
+
+
+ 
+
+
 
 extension SCNGeometry {
     class func line(from vector1: SCNVector3, to vector2: SCNVector3) -> SCNGeometry {

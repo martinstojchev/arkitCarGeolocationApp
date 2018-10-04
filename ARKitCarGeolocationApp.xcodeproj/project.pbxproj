@@ -19,6 +19,7 @@
 		5B72DE452163559C002B8956 /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = 5B72DE442163559C002B8956 /* art.scnassets */; };
 		5B72DE472165EBA6002B8956 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B72DE462165EBA6002B8956 /* Location.swift */; };
 		5B72DE492165FD3A002B8956 /* LocationNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B72DE482165FD3A002B8956 /* LocationNode.swift */; };
+		5B72DE4B216614B3002B8956 /* Annotations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B72DE4A216614B3002B8956 /* Annotations.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +37,7 @@
 		5B72DE442163559C002B8956 /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
 		5B72DE462165EBA6002B8956 /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
 		5B72DE482165FD3A002B8956 /* LocationNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationNode.swift; sourceTree = "<group>"; };
+		5B72DE4A216614B3002B8956 /* Annotations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Annotations.swift; sourceTree = "<group>"; };
 		9143A60978F54E39CF2C1888 /* Pods-ARKitCarGeolocationApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ARKitCarGeolocationApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-ARKitCarGeolocationApp/Pods-ARKitCarGeolocationApp.release.xcconfig"; sourceTree = "<group>"; };
 		D279097A5F46CDE1CCFFD7A4 /* Pods_ARKitCarGeolocationApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ARKitCarGeolocationApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -77,6 +79,7 @@
 				5B1607A22163441800904920 /* ViewController.swift */,
 				5B72DE462165EBA6002B8956 /* Location.swift */,
 				5B72DE482165FD3A002B8956 /* LocationNode.swift */,
+				5B72DE4A216614B3002B8956 /* Annotations.swift */,
 				5B72DE3E2163538C002B8956 /* FloationPoint+Extension.swift */,
 				5B72DE4221635416002B8956 /* String+Extension.swift */,
 				5B72DE442163559C002B8956 /* art.scnassets */,
@@ -229,6 +232,7 @@
 			files = (
 				5B1607A32163441800904920 /* ViewController.swift in Sources */,
 				5B1607A12163441800904920 /* AppDelegate.swift in Sources */,
+				5B72DE4B216614B3002B8956 /* Annotations.swift in Sources */,
 				5B72DE3F2163538C002B8956 /* FloationPoint+Extension.swift in Sources */,
 				5B72DE492165FD3A002B8956 /* LocationNode.swift in Sources */,
 				5B72DE4321635416002B8956 /* String+Extension.swift in Sources */,
