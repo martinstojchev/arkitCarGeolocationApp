@@ -164,6 +164,9 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
         locationPoints.append(location14)
         var location15 = Location(latitude: 41.999042294919484, longitude: 21.426239232864788, heading: 0, instructions: "The destination is on your left")
         locationPoints.append(location15)
+        var endLocation = Location(latitude: 41.99887386225044, longitude: 21.426157140049934, heading: 0, instructions: "end")
+        locationPoints.append(endLocation)
+        
         
         for location in locationPoints {
             
@@ -177,6 +180,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
             
             
         }
+        
         
         self.status = "All location pinned on the map"
         
@@ -232,6 +236,9 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
         }
         else if (instructions.contains("right")){
             arrow = makeBillboardNode("➡️".image()!)
+        }
+        else if (instructions.contains("end")){
+            arrow = makeBillboardNode("🚩".image()!)
         }
         else {
             arrow = SCNNode()
