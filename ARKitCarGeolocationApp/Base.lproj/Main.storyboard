@@ -24,11 +24,21 @@
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="Tmy-IY-ExR"/>
                                 </connections>
                             </mapView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XKu-os-rOs">
-                                <rect key="frame" x="16" y="617" width="46" height="30"/>
-                                <state key="normal" title="Button"/>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XKu-os-rOs">
+                                <rect key="frame" x="16" y="617" width="87" height="30"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" title="Cancel route"/>
                                 <connections>
                                     <action selector="cancelRoute:" destination="BYZ-38-t0r" eventType="touchUpInside" id="cdP-Xj-4tF"/>
+                                </connections>
+                            </button>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Oux-xr-QFF">
+                                <rect key="frame" x="281" y="617" width="78" height="30"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" title="Show in AR"/>
+                                <connections>
+                                    <action selector="cancelRoute:" destination="BYZ-38-t0r" eventType="touchUpInside" id="WTE-D3-TUR"/>
+                                    <action selector="showAR:" destination="BYZ-38-t0r" eventType="touchUpInside" id="6P6-Ed-AKo"/>
                                 </connections>
                             </button>
                             <arscnView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Sxh-Wx-cbD">
@@ -51,7 +61,9 @@
                             <constraint firstAttribute="trailing" secondItem="Sxh-Wx-cbD" secondAttribute="trailing" id="1Uh-nq-T0q"/>
                             <constraint firstItem="uWa-st-8sC" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="FUL-kX-y0B"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="uWa-st-8sC" secondAttribute="trailing" id="Jzb-to-PfG"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Oux-xr-QFF" secondAttribute="trailing" constant="16" id="QO0-Nl-FJZ"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="XKu-os-rOs" secondAttribute="bottom" constant="20" id="R4Z-QY-TYi"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="Oux-xr-QFF" secondAttribute="bottom" constant="20" id="bYk-t9-MYi"/>
                             <constraint firstItem="uWa-st-8sC" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="f7d-Wb-1Gl"/>
                             <constraint firstItem="Sxh-Wx-cbD" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="gHp-b9-IxT"/>
                             <constraint firstAttribute="bottomMargin" secondItem="Sxh-Wx-cbD" secondAttribute="bottom" id="hO4-vL-DYV"/>
@@ -67,6 +79,7 @@
                         <outlet property="cancelButton" destination="XKu-os-rOs" id="DLp-hZ-E5v"/>
                         <outlet property="mapView" destination="uhd-nu-GkC" id="vjF-K4-BnW"/>
                         <outlet property="sceneView" destination="Sxh-Wx-cbD" id="lvB-Sf-qgQ"/>
+                        <outlet property="showInARButton" destination="Oux-xr-QFF" id="zjz-GE-ofa"/>
                         <outlet property="statusTextView" destination="uWa-st-8sC" id="RlN-My-YJN"/>
                     </connections>
                 </viewController>
