@@ -24,6 +24,13 @@
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="Tmy-IY-ExR"/>
                                 </connections>
                             </mapView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aag-Zi-6aB">
+                                <rect key="frame" x="327" y="40" width="32" height="32"/>
+                                <state key="normal" image="arrow"/>
+                                <connections>
+                                    <action selector="showMyLocation:" destination="BYZ-38-t0r" eventType="touchUpInside" id="24R-dL-FYh"/>
+                                </connections>
+                            </button>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XKu-os-rOs">
                                 <rect key="frame" x="16" y="617" width="87" height="30"/>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -67,10 +74,12 @@
                             <constraint firstItem="uWa-st-8sC" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="f7d-Wb-1Gl"/>
                             <constraint firstItem="Sxh-Wx-cbD" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="gHp-b9-IxT"/>
                             <constraint firstAttribute="bottomMargin" secondItem="Sxh-Wx-cbD" secondAttribute="bottom" id="hO4-vL-DYV"/>
+                            <constraint firstItem="aag-Zi-6aB" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="20" id="hOd-iJ-3Se"/>
                             <constraint firstItem="Sxh-Wx-cbD" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="topMargin" id="hQn-KU-auM"/>
                             <constraint firstItem="XKu-os-rOs" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="iBs-rZ-Kv5"/>
                             <constraint firstAttribute="trailing" secondItem="uhd-nu-GkC" secondAttribute="trailing" id="o5b-ft-CCT"/>
                             <constraint firstItem="uhd-nu-GkC" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="q7E-M4-AOb"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="aag-Zi-6aB" secondAttribute="trailing" constant="16" id="rHf-s5-7Ch"/>
                             <constraint firstItem="uhd-nu-GkC" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="ueJ-sd-FyW"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
@@ -78,6 +87,7 @@
                     <connections>
                         <outlet property="cancelButton" destination="XKu-os-rOs" id="DLp-hZ-E5v"/>
                         <outlet property="mapView" destination="uhd-nu-GkC" id="vjF-K4-BnW"/>
+                        <outlet property="myPositionButton" destination="aag-Zi-6aB" id="ky5-p7-KiN"/>
                         <outlet property="sceneView" destination="Sxh-Wx-cbD" id="lvB-Sf-qgQ"/>
                         <outlet property="showInARButton" destination="Oux-xr-QFF" id="zjz-GE-ofa"/>
                         <outlet property="statusTextView" destination="uWa-st-8sC" id="RlN-My-YJN"/>
@@ -87,4 +97,7 @@
             </objects>
         </scene>
     </scenes>
+    <resources>
+        <image name="arrow" width="32" height="32"/>
+    </resources>
 </document>

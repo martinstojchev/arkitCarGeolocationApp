@@ -20,6 +20,8 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
     
     @IBOutlet weak var sceneView: ARSCNView!
     @IBOutlet weak var statusTextView: UITextView!
+    @IBOutlet weak var myPositionButton: UIButton!
+    
     
     let locationManager = CLLocationManager()
     var userLocation = CLLocation()
@@ -65,6 +67,8 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        
+         myPositionButton.isHidden = false
         
         //Location stuff
         checkLocationServices()
@@ -690,7 +694,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
             //centerViewOnUserLocation()
             print("authorization when in use")
             locationManager.startUpdatingLocation()
-            print("userLocation in setupLocation manager: \(userLocation)")
+            //print("userLocation in setupLocation manager: \(userLocation)")
             
             break
         case .denied:
@@ -760,9 +764,21 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
         
         sceneView.isHidden = false
         statusTextView.isHidden = false
-        
+        myPositionButton.isHidden = true
         
         self.getLocationsForAR()
+    }
+    
+    
+    @IBAction func showMyLocation(_ sender: Any) {
+        
+        print("usersCurrenLocation: \(usersCurrenLocation)")
+        print("userLocation: \(userLocation)")
+        
+            
+            let viewRegion = MKCoordinateRegion(center:usersCurrenLocation, latitudinalMeters: 200, longitudinalMeters: 200)
+            mapView.setRegion(viewRegion, animated: true)
+        
     }
     
     
