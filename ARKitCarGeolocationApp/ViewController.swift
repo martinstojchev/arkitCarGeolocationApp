@@ -552,6 +552,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
             
             annotationsOnMap.append(pinAnnotation)
             mapView.addAnnotation(pinAnnotation)
+            print("annotationsOnMap count: \(annotationsOnMap.count)")
             
             
         }
@@ -735,6 +736,8 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
     
         mapView.removeAnnotations(annotationsOnMap)
         pinPointsCoordinate = []
+        annotationsOnMap    = []
+        print("annotationsOnMap reseted: \(annotationsOnMap.count)")
         
         //print("Annotations removed from map")
         
@@ -753,7 +756,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
     
     @IBAction func showAR(_ sender: Any) {
         
-        
+        print("showAR method:  annotationsOnMap count: \(annotationsOnMap.count)")
         for annotation in annotationsOnMap {
             print("annotation step: \(annotation.locationName), annotationCoordinates: \(annotation.coordinate) ")
         }

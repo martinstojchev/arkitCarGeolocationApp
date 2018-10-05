@@ -39,13 +39,12 @@
                                     <action selector="cancelRoute:" destination="BYZ-38-t0r" eventType="touchUpInside" id="cdP-Xj-4tF"/>
                                 </connections>
                             </button>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Oux-xr-QFF">
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DeB-ha-QDH">
                                 <rect key="frame" x="281" y="617" width="78" height="30"/>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal" title="Show in AR"/>
                                 <connections>
-                                    <action selector="cancelRoute:" destination="BYZ-38-t0r" eventType="touchUpInside" id="WTE-D3-TUR"/>
-                                    <action selector="showAR:" destination="BYZ-38-t0r" eventType="touchUpInside" id="6P6-Ed-AKo"/>
+                                    <action selector="showAR:" destination="BYZ-38-t0r" eventType="touchUpInside" id="e65-mw-Lf9"/>
                                 </connections>
                             </button>
                             <arscnView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Sxh-Wx-cbD">
@@ -68,9 +67,7 @@
                             <constraint firstAttribute="trailing" secondItem="Sxh-Wx-cbD" secondAttribute="trailing" id="1Uh-nq-T0q"/>
                             <constraint firstItem="uWa-st-8sC" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="FUL-kX-y0B"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="uWa-st-8sC" secondAttribute="trailing" id="Jzb-to-PfG"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Oux-xr-QFF" secondAttribute="trailing" constant="16" id="QO0-Nl-FJZ"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="XKu-os-rOs" secondAttribute="bottom" constant="20" id="R4Z-QY-TYi"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="Oux-xr-QFF" secondAttribute="bottom" constant="20" id="bYk-t9-MYi"/>
                             <constraint firstItem="uWa-st-8sC" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="f7d-Wb-1Gl"/>
                             <constraint firstItem="Sxh-Wx-cbD" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="gHp-b9-IxT"/>
                             <constraint firstAttribute="bottomMargin" secondItem="Sxh-Wx-cbD" secondAttribute="bottom" id="hO4-vL-DYV"/>
@@ -78,7 +75,9 @@
                             <constraint firstItem="Sxh-Wx-cbD" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="topMargin" id="hQn-KU-auM"/>
                             <constraint firstItem="XKu-os-rOs" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="iBs-rZ-Kv5"/>
                             <constraint firstAttribute="trailing" secondItem="uhd-nu-GkC" secondAttribute="trailing" id="o5b-ft-CCT"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="DeB-ha-QDH" secondAttribute="trailing" constant="16" id="pNp-gQ-Wf8"/>
                             <constraint firstItem="uhd-nu-GkC" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="q7E-M4-AOb"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="DeB-ha-QDH" secondAttribute="bottom" constant="20" id="qRv-Jy-C58"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="aag-Zi-6aB" secondAttribute="trailing" constant="16" id="rHf-s5-7Ch"/>
                             <constraint firstItem="uhd-nu-GkC" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="ueJ-sd-FyW"/>
                         </constraints>
@@ -89,7 +88,7 @@
                         <outlet property="mapView" destination="uhd-nu-GkC" id="vjF-K4-BnW"/>
                         <outlet property="myPositionButton" destination="aag-Zi-6aB" id="ky5-p7-KiN"/>
                         <outlet property="sceneView" destination="Sxh-Wx-cbD" id="lvB-Sf-qgQ"/>
-                        <outlet property="showInARButton" destination="Oux-xr-QFF" id="zjz-GE-ofa"/>
+                        <outlet property="showInARButton" destination="DeB-ha-QDH" id="Ugz-Jo-J9Z"/>
                         <outlet property="statusTextView" destination="uWa-st-8sC" id="RlN-My-YJN"/>
                     </connections>
                 </viewController>
