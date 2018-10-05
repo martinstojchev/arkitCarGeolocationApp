@@ -228,10 +228,9 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
     
     func updateLocation(_ latitude: Double, _ longitude: Double, _ instructions: String){
         
-        print("update location called")
-        
         let location = CLLocation(latitude: latitude, longitude: longitude)
-        self.distance = Float(location.distance(from: userLocation))
+        
+        print("update location called")
         
         //if self.modelNode == nil {
              //let modelScene = SCNScene(named: "art.scnassets/Car.dae")!
@@ -661,6 +660,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
         // locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         
+        
     }
     
     func checkLocationServices() {
@@ -690,6 +690,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
             //centerViewOnUserLocation()
             print("authorization when in use")
             locationManager.startUpdatingLocation()
+            print("userLocation in setupLocation manager: \(userLocation)")
             
             break
         case .denied:
@@ -709,10 +710,17 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
     func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
         //print("Updating user's location: \(userLocation.coordinate)")
         
+        // Calculate and display the distance between user's location and end point location
+        let currentLocation = CLLocation(latitude: userLocation.coordinate.latitude, longitude: userLocation.coordinate.longitude)
+        let endPoint = CLLocation(latitude: endPointCoordinates.latitude, longitude: endPointCoordinates.longitude)
+        self.distance = Float(endPoint.distance(from: currentLocation))
         
         if (usersCurrenLocation.latitude == 0 && usersCurrenLocation.longitude == 0) {
             usersCurrenLocation = CLLocationCoordinate2D(latitude: userLocation.coordinate.latitude, longitude: userLocation.coordinate.longitude)
             print("User's current location: \(usersCurrenLocation)")
+            
+            let viewRegion = MKCoordinateRegion(center: usersCurrenLocation, latitudinalMeters: 200, longitudinalMeters: 200)
+            mapView.setRegion(viewRegion, animated: true)
             
         }
     }
