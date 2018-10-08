@@ -50,6 +50,15 @@
                             <arscnView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Sxh-Wx-cbD">
                                 <rect key="frame" x="0.0" y="20" width="375" height="647"/>
                             </arscnView>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ydk-ro-Qjm">
+                                <rect key="frame" x="16" y="617" width="72" height="30"/>
+                                <state key="normal" title="Show map">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="showMap:" destination="BYZ-38-t0r" eventType="touchUpInside" id="LUk-Cb-IsT"/>
+                                </connections>
+                            </button>
                             <textView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uWa-st-8sC">
                                 <rect key="frame" x="0.0" y="20" width="375" height="90"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.5" colorSpace="calibratedRGB"/>
@@ -68,6 +77,7 @@
                             <constraint firstItem="uWa-st-8sC" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="FUL-kX-y0B"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="uWa-st-8sC" secondAttribute="trailing" id="Jzb-to-PfG"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="XKu-os-rOs" secondAttribute="bottom" constant="20" id="R4Z-QY-TYi"/>
+                            <constraint firstItem="ydk-ro-Qjm" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="Yjr-aE-8GF"/>
                             <constraint firstItem="uWa-st-8sC" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="f7d-Wb-1Gl"/>
                             <constraint firstItem="Sxh-Wx-cbD" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="gHp-b9-IxT"/>
                             <constraint firstAttribute="bottomMargin" secondItem="Sxh-Wx-cbD" secondAttribute="bottom" id="hO4-vL-DYV"/>
@@ -76,6 +86,7 @@
                             <constraint firstItem="XKu-os-rOs" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="iBs-rZ-Kv5"/>
                             <constraint firstAttribute="trailing" secondItem="uhd-nu-GkC" secondAttribute="trailing" id="o5b-ft-CCT"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="DeB-ha-QDH" secondAttribute="trailing" constant="16" id="pNp-gQ-Wf8"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="ydk-ro-Qjm" secondAttribute="bottom" constant="20" id="ptk-Pl-Ghb"/>
                             <constraint firstItem="uhd-nu-GkC" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="q7E-M4-AOb"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="DeB-ha-QDH" secondAttribute="bottom" constant="20" id="qRv-Jy-C58"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="aag-Zi-6aB" secondAttribute="trailing" constant="16" id="rHf-s5-7Ch"/>
@@ -89,6 +100,7 @@
                         <outlet property="myPositionButton" destination="aag-Zi-6aB" id="ky5-p7-KiN"/>
                         <outlet property="sceneView" destination="Sxh-Wx-cbD" id="lvB-Sf-qgQ"/>
                         <outlet property="showInARButton" destination="DeB-ha-QDH" id="Ugz-Jo-J9Z"/>
+                        <outlet property="showMapButton" destination="ydk-ro-Qjm" id="iHt-bm-wy3"/>
                         <outlet property="statusTextView" destination="uWa-st-8sC" id="RlN-My-YJN"/>
                     </connections>
                 </viewController>
