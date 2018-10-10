@@ -119,16 +119,16 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
         
         print("viewWillAppear called")
         
-//
-//        //Create a session configuration
-//        let configuration = ARWorldTrackingConfiguration()
-//
-//        //The option gravityAndHeading will set the y-axis to the direction of gravity as detected by the device, and the x and z-axes to the longitude and latitude
-//        //directions as measured by Location Services.
-//        configuration.worldAlignment = .gravityAndHeading
-//
-//        //Run the view's session
-//        sceneView.session.run(configuration)
+
+        //Create a session configuration
+        let configuration = ARWorldTrackingConfiguration()
+
+        //The option gravityAndHeading will set the y-axis to the direction of gravity as detected by the device, and the x and z-axes to the longitude and latitude
+        //directions as measured by Location Services.
+        configuration.worldAlignment = .gravityAndHeading
+
+        //Run the view's session
+        sceneView.session.run(configuration)
         
     }
     
@@ -222,7 +222,11 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
             // Replace the car 3D model with point
             modelScene = SCNScene(named: "art.scnassets/pointScene.scn")
             var ballShape = SCNSphere(radius: 0.40)
-            ballShape.firstMaterial = SCNMaterial()
+            //ballShape.firstMaterial = SCNMaterial()
+            let ballMaterial = SCNMaterial()
+            ballMaterial.diffuse.contents = UIColor.red
+            ballShape.materials = [ballMaterial]
+        
             var ballNode = SCNNode(geometry: ballShape)
             ballNode.name = "ball"
             modelScene?.rootNode.addChildNode(ballNode)
@@ -820,16 +824,16 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
         
         showMapButton.isHidden = false
         self.getLocationsForAR()
-        
-        //Create a session configuration
-        let configuration = ARWorldTrackingConfiguration()
-        
-        //The option gravityAndHeading will set the y-axis to the direction of gravity as detected by the device, and the x and z-axes to the longitude and latitude
-        //directions as measured by Location Services.
-        configuration.worldAlignment = .gravityAndHeading
-        
-        //Run the view's session
-        sceneView.session.run(configuration)
+//
+//        //Create a session configuration
+//        let configuration = ARWorldTrackingConfiguration()
+//
+//        //The option gravityAndHeading will set the y-axis to the direction of gravity as detected by the device, and the x and z-axes to the longitude and latitude
+//        //directions as measured by Location Services.
+//        configuration.worldAlignment = .gravityAndHeading
+//
+//        //Run the view's session
+//        sceneView.session.run(configuration)
         
     }
     
@@ -861,7 +865,8 @@ extension SCNGeometry {
         let indices: [Int32] = [0, 1]
         let source = SCNGeometrySource(vertices: [vector1, vector2])
         let element = SCNGeometryElement(indices: indices, primitiveType: .line)
-        element.pointSize = 15
+        element.pointSize = 20
+        
         
         return SCNGeometry(sources: [source], elements: [element])
     }
