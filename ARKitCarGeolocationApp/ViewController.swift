@@ -285,13 +285,13 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
             
             let line = SCNGeometry.line(from: startPointPosition, to: endPointPosition)
             let lineMaterial = SCNMaterial()
-            let lineColor = "➖".image()
+            //let lineColor = "➖".image()
             
-            lineMaterial.diffuse.contents = lineColor
+            lineMaterial.diffuse.contents = UIColor.green
             //line.firstMaterial = SCNMaterial()
-            line.firstMaterial?.fillMode = .fill
+            //line.firstMaterial?.fillMode = .fill
             line.materials = [lineMaterial]
-            line.firstMaterial?.transparency = 0.5
+            //line.firstMaterial?.transparency = 0.5
             
             let lineNode = SCNNode(geometry: line)
             lineNode.position = SCNVector3Make(0, -2, 0)
