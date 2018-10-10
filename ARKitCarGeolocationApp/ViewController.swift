@@ -284,10 +284,12 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
             print("endPointPosition: \(endPointPosition)")
             
             let line = SCNGeometry.line(from: startPointPosition, to: endPointPosition)
+           
             let lineMaterial = SCNMaterial()
             //let lineColor = "➖".image()
             
             lineMaterial.diffuse.contents = UIColor.green
+            //lineMaterial.diffuse.contents = UIImage(named: "arrow-material")
             //line.firstMaterial = SCNMaterial()
             //line.firstMaterial?.fillMode = .fill
             line.materials = [lineMaterial]
@@ -296,7 +298,23 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
             let lineNode = SCNNode(geometry: line)
             lineNode.position = SCNVector3Make(0, -2, 0)
             
+            let path = SCNBox(width: 1, height: 1, length: 1, chamferRadius: 0.4)
+            
+            let pathMaterial = SCNMaterial()
+            pathMaterial.diffuse.contents = UIColor.yellow
+
+            let pathNode = SCNNode(geometry: path)
+            pathNode.position = lineNode.position
+            pathNode.rotation = lineNode.rotation
+            pathNode.transform = lineNode.transform
+            
+        
+            self.modelNode.addChildNode(pathNode)
+           
+            
             sceneView.scene.rootNode.addChildNode(lineNode)
+            
+            
             
             pointPositions.remove(at: 0)
             print("deleted the first element from the poinPoints array, count after removing is: \(pointPositions.count) ")
