@@ -36,6 +36,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
     var locationPoints: [Location] = []
     
     var startingLocationPin: MyAnnotations!
+    var modelScene: SCNScene!
     
     var distance: Float! = 0.0 {
       
@@ -211,13 +212,15 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
         
         let location = CLLocation(latitude: latitude, longitude: longitude)
         
+        print("updateLocation(),sceneView.rootNode: \(sceneView.scene.rootNode)")
+        
         print("update location called")
         
         //if self.modelNode == nil {
              //let modelScene = SCNScene(named: "art.scnassets/Car.dae")!
              //self.modelNode = modelScene.rootNode.childNode(withName: rootNodeName, recursively: true)!
             // Replace the car 3D model with point
-            let modelScene = SCNScene(named: "art.scnassets/pointScene.scn")
+            modelScene = SCNScene(named: "art.scnassets/pointScene.scn")
             var ballShape = SCNSphere(radius: 0.40)
             ballShape.firstMaterial = SCNMaterial()
             var ballNode = SCNNode(geometry: ballShape)
@@ -754,6 +757,9 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
         mapView.removeAnnotations(annotationsOnMap)
         pinPointsCoordinate = []
         annotationsOnMap    = []
+        requestedRoutePoints = []
+        locationPoints       = []
+        print("requestedRoutePoints reseted")
         
         print("mapView annotations: \(mapView.annotations)")
         //print("mapView annotations: \(mapView.annotations[1])")
@@ -780,18 +786,20 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
         //reset the ar world route
         
         
+
+        
         let rootNode = sceneView.scene.rootNode
         print("rootNode: \(rootNode)")
-        
-        sceneView.scene.rootNode.enumerateChildNodes { (node, stop) in
+
+        rootNode.enumerateChildNodes { (node, stop) in
             node.removeFromParentNode()
-            
+
         }
-        
+
         print("rootNode after removing: \(rootNode)")
         print("sceneView.rootNode: \(sceneView.scene.rootNode)")
-        
-        sceneView.scene = SCNScene()
+
+        //sceneView.scene = SCNScene()
         
     }
     
