@@ -35,6 +35,8 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
     var pointPositions: [SCNVector3] = []
     var locationPoints: [Location] = []
     
+    var startingLocationPin: MyAnnotations!
+    
     var distance: Float! = 0.0 {
       
         didSet {
@@ -114,25 +116,27 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        print("viewWillAppear called")
         
-        
-        //Create a session configuration
-        let configuration = ARWorldTrackingConfiguration()
-        
-        //The option gravityAndHeading will set the y-axis to the direction of gravity as detected by the device, and the x and z-axes to the longitude and latitude
-        //directions as measured by Location Services.
-        configuration.worldAlignment = .gravityAndHeading
-        
-        //Run the view's session
-        sceneView.session.run(configuration)
+//
+//        //Create a session configuration
+//        let configuration = ARWorldTrackingConfiguration()
+//
+//        //The option gravityAndHeading will set the y-axis to the direction of gravity as detected by the device, and the x and z-axes to the longitude and latitude
+//        //directions as measured by Location Services.
+//        configuration.worldAlignment = .gravityAndHeading
+//
+//        //Run the view's session
+//        sceneView.session.run(configuration)
         
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        
+        print("viewWillDisappear called")
         //Pause the view's session
         sceneView.session.pause()
+        
        
     }
     
@@ -273,8 +277,15 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
             print("endPointPosition: \(endPointPosition)")
             
             let line = SCNGeometry.line(from: startPointPosition, to: endPointPosition)
-            line.firstMaterial = SCNMaterial()
+            let lineMaterial = SCNMaterial()
+            let lineColor = "➖".image()
+            
+            lineMaterial.diffuse.contents = lineColor
+            //line.firstMaterial = SCNMaterial()
             line.firstMaterial?.fillMode = .fill
+            line.materials = [lineMaterial]
+            line.firstMaterial?.transparency = 0.5
+            
             let lineNode = SCNNode(geometry: line)
             lineNode.position = SCNVector3Make(0, -2, 0)
             
@@ -415,6 +426,24 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
         
     }
     
+    func session(_ session: ARSession, didFailWithError error: Error) {
+        // Present an error message to the user
+        print("didFailWithError method called")
+    }
+    
+    func sessionWasInterrupted(_ session: ARSession) {
+        // Inform the user that the session has been interrupted, for example, by representing an overlay
+        print("sessionWasInterrupted method called")
+    }
+    
+    func sessionInterruptionEnded(_ session: ARSession) {
+        // Reset tracking and/or remove existing anchors if consistent tracking is required
+        print("sessionInterruptionEnded method called")
+    }
+    
+    
+    
+    
     //Show the map from the SceneView
     @IBAction func showMap(_ sender: Any) {
         
@@ -424,6 +453,9 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
         statusTextView.isHidden = true
         cancelButton.isHidden = false
         showInARButton.isHidden = false
+        myPositionButton.isHidden = false
+        
+        //sceneView.session.pause()
         
     }
     
@@ -513,6 +545,16 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
     
     func addPinPointsToMap(pinPointsCoordinate: [CLLocationCoordinate2D], rootSteps: [MKRoute.Step]) {
         
+         startingLocationPin = MyAnnotations(title: "Start",
+                                                locationName: "Start point",
+                                                discipline: "",
+                                                coordinate: startPointCoordinates
+                                            )
+        
+        //pin the starting point
+        annotationsOnMap.append(startingLocationPin)
+        mapView.addAnnotation(startingLocationPin)
+        
         for pinPoint in pinPointsCoordinate {
             
             let pinLatitude  = pinPoint.latitude
@@ -588,22 +630,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
         let polyline = overlay as! MKPolyline
         var polyLinePoints = polyline.points()
         
-        
-        
-        
-        
-        
-        let startingLocationPin = MyAnnotations(title: "Start",
-                                                locationName: "Start point",
-                                                discipline: "",
-                                                coordinate: startPointCoordinates
-        )
-        
-       
-        
-        //pin the starting point
-        annotationsOnMap.append(startingLocationPin)
-        mapView.addAnnotation(startingLocationPin)
+
         
         var i = 0
         while i < polyline.pointCount {
@@ -721,9 +748,21 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
 
     @IBAction func cancelRoute(_ sender: Any) {
     
+        
+        
+        
         mapView.removeAnnotations(annotationsOnMap)
         pinPointsCoordinate = []
         annotationsOnMap    = []
+        
+        print("mapView annotations: \(mapView.annotations)")
+        //print("mapView annotations: \(mapView.annotations[1])")
+        
+        // Remove the starting point annotation when backing from ar map to mapview
+        if (mapView.annotations.count > 1){
+            mapView.removeAnnotation(startingLocationPin)
+        }
+        
         print("annotationsOnMap reseted: \(annotationsOnMap.count)")
         
         //print("Annotations removed from map")
@@ -738,6 +777,21 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
         cancelButton.isHidden = true
         showInARButton.isHidden = true
         
+        //reset the ar world route
+        
+        
+        let rootNode = sceneView.scene.rootNode
+        print("rootNode: \(rootNode)")
+        
+        sceneView.scene.rootNode.enumerateChildNodes { (node, stop) in
+            node.removeFromParentNode()
+            
+        }
+        
+        print("rootNode after removing: \(rootNode)")
+        print("sceneView.rootNode: \(sceneView.scene.rootNode)")
+        
+        sceneView.scene = SCNScene()
         
     }
     
@@ -758,6 +812,17 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
         
         showMapButton.isHidden = false
         self.getLocationsForAR()
+        
+        //Create a session configuration
+        let configuration = ARWorldTrackingConfiguration()
+        
+        //The option gravityAndHeading will set the y-axis to the direction of gravity as detected by the device, and the x and z-axes to the longitude and latitude
+        //directions as measured by Location Services.
+        configuration.worldAlignment = .gravityAndHeading
+        
+        //Run the view's session
+        sceneView.session.run(configuration)
+        
     }
     
     
