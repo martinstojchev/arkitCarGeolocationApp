@@ -34,7 +34,9 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
     
     var pointPositions: [SCNVector3] = []
     var locationPoints: [Location] = []
-    
+    var distances: [CLLocationDistance] = []
+     // using for calculating distances between points
+    var currentLocationForDistance: CLLocation!
     var startingLocationPin: MyAnnotations!
     var modelScene: SCNScene!
     
@@ -64,7 +66,8 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
     var directionsForRoute:[MKDirections] = []
     var annotationsOnMap: [MyAnnotations] = []
     
-    
+    // Drawing path
+     private var drawingNodes = [DynamicGeometryNode]()
     
 
     
@@ -161,7 +164,8 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
         if let location = locations.last {
             userLocation = location
             status = "User location founded"
-
+            
+            
             //self.getLocationsForAR()
 
 
@@ -202,15 +206,62 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
         
         self.status = "All location pinned on the map"
         
+        sceneView.isHidden = false
+        statusTextView.isHidden = false
+        showMapButton.isHidden = false
+    }
+    
+    func calculateDistanceBetweenPoints(locations: [Location]){
         
-        
-        
+        if (locations.isEmpty){
+            print("locations is empty array")
+        }
+        else {
+            
+            currentLocationForDistance = CLLocation(latitude: locations[0].latitude, longitude: locations[0].longitude)
+            
+            //var i = 1
+            print("locations count: \(locations.count)")
+            for i in 1..<locations.count {
+                
+                print("i: \(locations[locations.count-1])")
+                var secondLocation = CLLocation(latitude: locations[i].latitude, longitude: locations[i].longitude)
+                
+                print("current location: \(currentLocationForDistance)")
+                print("second location: \(secondLocation)")
+                let distance = currentLocationForDistance.distance(from: secondLocation)
+            
+                if i == locations.count-1 {
+                distances.append(distance)
+                    
+                }
+                else {
+                distances.append(distance)
+                
+                currentLocationForDistance = secondLocation
+                
+                }
+                
+            }
+            
+            for distance in distances {
+                
+                print(distance)
+            }
+            
+            
+        }
         
     }
     
     func updateLocation(_ latitude: Double, _ longitude: Double, _ instructions: String){
         
         let location = CLLocation(latitude: latitude, longitude: longitude)
+        
+        // call this method only once
+        if distances.isEmpty{
+          calculateDistanceBetweenPoints(locations: locationPoints)
+        }
         
         print("updateLocation(),sceneView.rootNode: \(sceneView.scene.rootNode)")
         
@@ -289,6 +340,8 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
             //let lineColor = "➖".image()
             
             lineMaterial.diffuse.contents = UIColor.green
+            lineMaterial.isDoubleSided = true
+            
             //lineMaterial.diffuse.contents = UIImage(named: "arrow-material")
             //line.firstMaterial = SCNMaterial()
             //line.firstMaterial?.fillMode = .fill
@@ -298,22 +351,30 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
             let lineNode = SCNNode(geometry: line)
             lineNode.position = SCNVector3Make(0, -2, 0)
             
-            let path = SCNBox(width: 1, height: 1, length: 1, chamferRadius: 0.4)
             
-            let pathMaterial = SCNMaterial()
-            pathMaterial.diffuse.contents = UIColor.yellow
+           // let boxLength = CGFloat(distances.removeFirst())
+            
+           // let path = SCNBox(width: 1, height: 1, length:boxLength, chamferRadius: 0.4)
+            
+            //let pathMaterial = SCNMaterial()
+           // pathMaterial.diffuse.contents = UIColor.yellow
 
-            let pathNode = SCNNode(geometry: path)
-            pathNode.position = lineNode.position
-            pathNode.rotation = lineNode.rotation
-            pathNode.transform = lineNode.transform
+            //let pathNode = SCNNode(geometry: path)
+            //pathNode.position = SCNVector3Make(0, -1, 0)
+            
             
         
-            self.modelNode.addChildNode(pathNode)
+            //lineNode.addChildNode(pathNode)
            
             
             sceneView.scene.rootNode.addChildNode(lineNode)
             
+            // Adding node for creating path
+            let drawingNode = DynamicGeometryNode(color: UIColor.blue, lineWidth: 0.04)
+            sceneView.scene.rootNode.addChildNode(drawingNode)
+            drawingNodes.append(drawingNode)
+            drawingNode.addVertice(startPointPosition)
+            drawingNode.addVertice(endPointPosition)
             
             
             pointPositions.remove(at: 0)
@@ -338,6 +399,12 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
             
             
        // }
+    }
+    
+    func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
+        
+        
+        
     }
     
     func positionModel(_ location: CLLocation) {
@@ -781,6 +848,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
         annotationsOnMap    = []
         requestedRoutePoints = []
         locationPoints       = []
+        distances           = []
         print("requestedRoutePoints reseted")
         
         print("mapView annotations: \(mapView.annotations)")
@@ -836,22 +904,12 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
         cancelButton.isHidden = true
         showInARButton.isHidden = true
         
-        sceneView.isHidden = false
-        statusTextView.isHidden = false
+        
         myPositionButton.isHidden = true
         
-        showMapButton.isHidden = false
+        
         self.getLocationsForAR()
-//
-//        //Create a session configuration
-//        let configuration = ARWorldTrackingConfiguration()
-//
-//        //The option gravityAndHeading will set the y-axis to the direction of gravity as detected by the device, and the x and z-axes to the longitude and latitude
-//        //directions as measured by Location Services.
-//        configuration.worldAlignment = .gravityAndHeading
-//
-//        //Run the view's session
-//        sceneView.session.run(configuration)
+
         
     }
     
@@ -882,9 +940,10 @@ extension SCNGeometry {
     class func line(from vector1: SCNVector3, to vector2: SCNVector3) -> SCNGeometry {
         let indices: [Int32] = [0, 1]
         let source = SCNGeometrySource(vertices: [vector1, vector2])
+        print("SCNGeometry source: \(source)")
         let element = SCNGeometryElement(indices: indices, primitiveType: .line)
-        element.pointSize = 20
-        
+        //element.minimumPointScreenSpaceRadius = 20
+        //let element2 = SCNGeometryElement(indices: indices, primitiveType: .polygon)
         
         return SCNGeometry(sources: [source], elements: [element])
     }
