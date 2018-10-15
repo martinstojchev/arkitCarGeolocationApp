@@ -39,6 +39,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
     var currentLocationForDistance: CLLocation!
     var startingLocationPin: MyAnnotations!
     var modelScene: SCNScene!
+    var nodePoints: [SCNNode] = []
     
     var distance: Float! = 0.0 {
       
@@ -303,6 +304,9 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
         // Add the model to the scene
             sceneView.scene.rootNode.addChildNode(self.modelNode)
         
+        // Add each model node in the array for drawing line between them
+        nodePoints.append(self.modelNode)
+        
         let arrow: SCNNode!
         
         if (instructions.contains("left")){
@@ -326,59 +330,52 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
         
         // Draw the line between the last two points from pointPositions array
         
-        if (pointPositions.count == 2){
+        if (nodePoints.count == 2){
             
-             let startPointPosition = pointPositions[0]
-             let endPointPosition   = pointPositions[1]
-            
-            print("startPointPosition: \(startPointPosition)")
-            print("endPointPosition: \(endPointPosition)")
-            
-            let line = SCNGeometry.line(from: startPointPosition, to: endPointPosition)
-           
-            let lineMaterial = SCNMaterial()
-            //let lineColor = "➖".image()
-            
-            lineMaterial.diffuse.contents = UIColor.green
-            lineMaterial.isDoubleSided = true
-            
-            //lineMaterial.diffuse.contents = UIImage(named: "arrow-material")
-            //line.firstMaterial = SCNMaterial()
-            //line.firstMaterial?.fillMode = .fill
-            line.materials = [lineMaterial]
-            //line.firstMaterial?.transparency = 0.5
-            
-            let lineNode = SCNNode(geometry: line)
-            lineNode.position = SCNVector3Make(0, -2, 0)
-            
-            
-           // let boxLength = CGFloat(distances.removeFirst())
-            
-           // let path = SCNBox(width: 1, height: 1, length:boxLength, chamferRadius: 0.4)
-            
-            //let pathMaterial = SCNMaterial()
-           // pathMaterial.diffuse.contents = UIColor.yellow
+//             let startPointPosition = pointPositions[0]
+//             let endPointPosition   = pointPositions[1]
+//
+//
+//            print("startPointPosition: \(startPointPosition)")
+//            print("endPointPosition: \(endPointPosition)")
+//
+//            let line = SCNGeometry.line(from: startPointPosition, to: endPointPosition)
+//
+//            let lineMaterial = SCNMaterial()
+//
+//            lineMaterial.diffuse.contents = UIColor.green
+//            lineMaterial.isDoubleSided = true
+//
+//
+//            line.materials = [lineMaterial]
+//            let lineNode = SCNNode(geometry: line)
+//            lineNode.position = SCNVector3Make(0, -2, 0)
 
-            //let pathNode = SCNNode(geometry: path)
-            //pathNode.position = SCNVector3Make(0, -1, 0)
+    
+            let startNode = nodePoints[0]
+            let endNode   = nodePoints[1]
             
-            
-        
-            //lineNode.addChildNode(pathNode)
-           
-            
-            sceneView.scene.rootNode.addChildNode(lineNode)
+            let distance = (endNode.position - startNode.position).length()
+            let drawLineNode = drawLine(from: startNode, to: endNode, length: distance)
             
             // Adding node for creating path
-            let drawingNode = DynamicGeometryNode(color: UIColor.blue, lineWidth: 0.04)
-            sceneView.scene.rootNode.addChildNode(drawingNode)
-            drawingNodes.append(drawingNode)
-            drawingNode.addVertice(startPointPosition)
-            drawingNode.addVertice(endPointPosition)
+//            let drawingNode = DynamicGeometryNode(color: UIColor.blue, lineWidth: 0.4)
+//
+//            drawingNodes.append(drawingNode)
+//            drawingNode.addVertice(startPointPosition)
+//            //drawingNode.addVertice(endPointPosition)
+//            sceneView.scene.rootNode.addChildNode(drawingNode)
             
             
-            pointPositions.remove(at: 0)
-            print("deleted the first element from the poinPoints array, count after removing is: \(pointPositions.count) ")
+            //sceneView.scene.rootNode.addChildNode(lineNode)
+            
+            
+            
+            
+//            pointPositions.remove(at: 0)
+//            print("deleted the first element from the poinPoints array, count after removing is: \(pointPositions.count) ")
+            nodePoints.remove(at: 0)
+            print("deletef the first element from nodePoints array, count after removing is: \(nodePoints.count)")
                 
         }
         else {
@@ -390,15 +387,15 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
             
             print("updating location.....")
             
-       // }
-     //   else {
-            
-            
-            // Position the model in the correct place
-            //positionModel(location)
-            
-            
-       // }
+        print("nodePoints count: \(nodePoints.count)")
+    }
+    
+    private func drawLine(from: SCNNode, to: SCNNode, length: Float) -> SCNNode {
+        let lineNode = SCNNode.lineNode(length: CGFloat(length), color: UIColor.red)
+        from.addChildNode(lineNode)
+        lineNode.position = SCNVector3Make(0, 0, -length / 2)
+        from.look(at: to.position)
+        return lineNode
     }
     
     func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
