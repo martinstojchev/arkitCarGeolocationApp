@@ -204,6 +204,13 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
             
         }
         
+        //custom location pin
+        let soborenHram = Location(latitude: 41.9963565, longitude: 21.4272423, heading: 0, instructions: "Soboren hram")
+        self.updateLocation(soborenHram.latitude, soborenHram.longitude, soborenHram.instructions)
+        //print("soboren hram updateLocation called")
+        let finki = Location(latitude: 42.004104256225155, longitude: 21.40970349311829, heading: 0, instructions: "FINKI")
+        self.updateLocation(finki.latitude, finki.longitude, finki.instructions)
+        
         
         self.status = "All location pinned on the map"
         
@@ -333,6 +340,30 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
             textNode.constraints = [SCNBillboardConstraint()]
             
             arrow.addChildNode(textNode)
+        }
+        else if (instructions != ""){
+            //custom text node
+            print("custom text node")
+            arrow = makeBillboardNode("🏠".image()!)
+            
+            
+            let text = instructions
+            
+            let geometry = SCNText(string: text, extrusionDepth: 0.01)
+            //geometry.alignmentMode = convertFromCATextLayerAlignmentMode(CATextLayerAlignmentMode.center)
+            if let material = geometry.firstMaterial {
+                material.diffuse.contents = UIColor.white
+                material.isDoubleSided = true
+            }
+            let textNode = SCNNode(geometry: geometry)
+            
+            geometry.font = UIFont.systemFont(ofSize: 10)
+            textNode.scale = SCNVector3Make(0.02, 0.02, 0.02)
+            textNode.position = SCNVector3Make(-8, 4, 0)
+            textNode.constraints = [SCNBillboardConstraint()]
+            
+            arrow.addChildNode(textNode)
+            
         }
         else {
             arrow = SCNNode()
