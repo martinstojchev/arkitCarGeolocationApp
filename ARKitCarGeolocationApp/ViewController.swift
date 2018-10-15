@@ -317,6 +317,22 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
         }
         else if (instructions.contains("End point")){
             arrow = makeBillboardNode("🚩".image()!)
+            // Add text on top of the node
+            
+            let geometry = SCNText(string: "End", extrusionDepth: 0.01)
+            //geometry.alignmentMode = convertFromCATextLayerAlignmentMode(CATextLayerAlignmentMode.center)
+            if let material = geometry.firstMaterial {
+                material.diffuse.contents = UIColor.white
+                material.isDoubleSided = true
+            }
+            let textNode = SCNNode(geometry: geometry)
+            
+            geometry.font = UIFont.systemFont(ofSize: 10)
+            textNode.scale = SCNVector3Make(0.02, 0.02, 0.02)
+            textNode.position = SCNVector3Make(-8, 4, 0)
+            textNode.constraints = [SCNBillboardConstraint()]
+            
+            arrow.addChildNode(textNode)
         }
         else {
             arrow = SCNNode()
@@ -327,6 +343,9 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
             arrow.position = SCNVector3Make(0, 4, 0)
         // Add it as a child of the car model
             self.modelNode.addChildNode(arrow)
+        
+        
+        
         
         // Draw the line between the last two points from pointPositions array
         
@@ -358,6 +377,9 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
             let distance = (endNode.position - startNode.position).length()
             let drawLineNode = drawLine(from: startNode, to: endNode, length: distance)
             
+            let textNode = addTextNode(onNode: startNode, text: "Start")
+            
+            sceneView.scene.rootNode.addChildNode(textNode)
             // Adding node for creating path
 //            let drawingNode = DynamicGeometryNode(color: UIColor.blue, lineWidth: 0.4)
 //
@@ -396,6 +418,15 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
         lineNode.position = SCNVector3Make(0, 0, -length / 2)
         from.look(at: to.position)
         return lineNode
+    }
+    
+    private func addTextNode(onNode node: SCNNode, text: String) -> SCNNode {
+        
+        let textNode = SCNNode.textNode(text: text)
+        node.addChildNode(textNode)
+        
+        return node
+        
     }
     
     func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
