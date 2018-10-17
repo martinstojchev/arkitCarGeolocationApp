@@ -903,7 +903,8 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
         
         
         
-        mapView.removeAnnotations(annotationsOnMap)
+        //mapView.removeAnnotations(annotationsOnMap)
+        mapView.removeAnnotations(mapView.annotations)
         pinPointsCoordinate = []
         annotationsOnMap    = []
         requestedRoutePoints = []
@@ -933,6 +934,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
         cancelButton.isHidden = true
         showInARButton.isHidden = true
         
+        resultSearchController?.searchBar.text = ""
         //reset the ar world route
         
         
