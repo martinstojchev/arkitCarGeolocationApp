@@ -41,6 +41,8 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
     var modelScene: SCNScene!
     var nodePoints: [SCNNode] = []
     var isCustomNode: Bool = false
+    let impact = UIImpactFeedbackGenerator()
+    
     var distance: Float! = 0.0 {
       
         didSet {
@@ -605,6 +607,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
                 let touchLocation = gestureRecognizer.location(in: mapView)
                 let locationCoordinate = mapView.convert(touchLocation, toCoordinateFrom: mapView)
                 print("Tapped location: \(locationCoordinate.latitude),\(locationCoordinate.longitude)")
+                impact.impactOccurred()
                 requestRoute(endLocation: locationCoordinate)
                 cancelButton.isHidden = false
                 showInARButton.isHidden = false
