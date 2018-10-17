@@ -40,7 +40,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
     var startingLocationPin: MyAnnotations!
     var modelScene: SCNScene!
     var nodePoints: [SCNNode] = []
-    
+    var isCustomNode: Bool = false
     var distance: Float! = 0.0 {
       
         didSet {
@@ -311,8 +311,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
         // Add the model to the scene
             sceneView.scene.rootNode.addChildNode(self.modelNode)
         
-        // Add each model node in the array for drawing line between them
-        nodePoints.append(self.modelNode)
+        
         
         let arrow: SCNNode!
         
@@ -346,6 +345,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
             print("custom text node")
             arrow = makeBillboardNode("🏠".image()!)
             
+            isCustomNode = true
             
             let text = instructions
             
@@ -368,40 +368,26 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
         else {
             arrow = SCNNode()
         }
-        // Create arrow from the emoji
+       
+        if(!isCustomNode){
+            
+            // Add model node in the array for drawing line between them
+            nodePoints.append(self.modelNode)
+        }
         
-        // Postion it on top of the car
+        // Postion it on top of the node
             arrow.position = SCNVector3Make(0, 4, 0)
         // Add it as a child of the car model
             self.modelNode.addChildNode(arrow)
         
-        
+        isCustomNode = false
         
         
         // Draw the line between the last two points from pointPositions array
         
         if (nodePoints.count == 2){
             
-//             let startPointPosition = pointPositions[0]
-//             let endPointPosition   = pointPositions[1]
-//
-//
-//            print("startPointPosition: \(startPointPosition)")
-//            print("endPointPosition: \(endPointPosition)")
-//
-//            let line = SCNGeometry.line(from: startPointPosition, to: endPointPosition)
-//
-//            let lineMaterial = SCNMaterial()
-//
-//            lineMaterial.diffuse.contents = UIColor.green
-//            lineMaterial.isDoubleSided = true
-//
-//
-//            line.materials = [lineMaterial]
-//            let lineNode = SCNNode(geometry: line)
-//            lineNode.position = SCNVector3Make(0, -2, 0)
-
-    
+ 
             let startNode = nodePoints[0]
             let endNode   = nodePoints[1]
             
@@ -411,22 +397,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
             let textNode = addTextNode(onNode: startNode, text: "Start")
             
             sceneView.scene.rootNode.addChildNode(textNode)
-            // Adding node for creating path
-//            let drawingNode = DynamicGeometryNode(color: UIColor.blue, lineWidth: 0.4)
-//
-//            drawingNodes.append(drawingNode)
-//            drawingNode.addVertice(startPointPosition)
-//            //drawingNode.addVertice(endPointPosition)
-//            sceneView.scene.rootNode.addChildNode(drawingNode)
-            
-            
-            //sceneView.scene.rootNode.addChildNode(lineNode)
-            
-            
-            
-            
-//            pointPositions.remove(at: 0)
-//            print("deleted the first element from the poinPoints array, count after removing is: \(pointPositions.count) ")
+
             nodePoints.remove(at: 0)
             print("deletef the first element from nodePoints array, count after removing is: \(nodePoints.count)")
                 
