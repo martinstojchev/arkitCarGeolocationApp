@@ -13,6 +13,10 @@ import CoreLocation
 import PusherSwift
 import MapKit
 
+protocol HandleMapSearch {
+    func dropPinZoomIn(placemark: MKPlacemark)
+}
+
 class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDelegate, MKMapViewDelegate, UIGestureRecognizerDelegate {
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var cancelButton: UIButton!
@@ -23,6 +27,8 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
     @IBOutlet weak var myPositionButton: UIButton!
     @IBOutlet weak var showMapButton: UIButton!
     
+    var resultSearchController: UISearchController? = nil
+    var selectedPin: MKPlacemark? = nil
     
     
     let locationManager = CLLocationManager()
@@ -42,6 +48,8 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
     var nodePoints: [SCNNode] = []
     var isCustomNode: Bool = false
     let impact = UIImpactFeedbackGenerator()
+    
+    
     
     var distance: Float! = 0.0 {
       
@@ -87,6 +95,23 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
         self.mapView.delegate = self
         self.setupGesture()
         
+        //searchController
+        let locationSearchTable = storyboard?.instantiateViewController(withIdentifier: "LocationSearchTable") as! LocationSearchTable
+        resultSearchController = UISearchController(searchResultsController: locationSearchTable)
+        resultSearchController?.searchResultsUpdater = locationSearchTable
+        
+        let searchBar = resultSearchController?.searchBar
+        searchBar?.sizeToFit()
+        searchBar?.placeholder = "Search for places"
+        navigationItem.titleView = resultSearchController?.searchBar
+        
+        resultSearchController?.hidesNavigationBarDuringPresentation = false
+        resultSearchController?.dimsBackgroundDuringPresentation = true
+        definesPresentationContext = true
+        locationSearchTable.handleMapSearchDelegate = self
+        
+        
+        locationSearchTable.mapView = mapView
         
         //Set the view's delegate
         sceneView.delegate = self
@@ -579,7 +604,9 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
         showInARButton.isHidden = false
         myPositionButton.isHidden = false
         
-        //sceneView.session.pause()
+         self.navigationController?.setNavigationBarHidden(false, animated: true)
+        
+        
         
     }
     
@@ -622,7 +649,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
         
     }
     
-    func requestRoute(endLocation: CLLocationCoordinate2D){
+     func requestRoute(endLocation: CLLocationCoordinate2D){
         
         startPointCoordinates = usersCurrenLocation
         endPointCoordinates   = endLocation
@@ -936,7 +963,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
         mapView.isHidden = true
         cancelButton.isHidden = true
         showInARButton.isHidden = true
-        
+        self.navigationController?.setNavigationBarHidden(true, animated: true)
         
         myPositionButton.isHidden = true
         
@@ -958,16 +985,50 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
         
     }
     
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        
+        if annotation is MKUserLocation {
+            // return nil so map view draws "blue dot" for standard user location
+            return nil
+        }
+        
+        let reuseId = "pin"
+        var pinView = mapView.dequeueReusableAnnotationView(withIdentifier: reuseId) as? MKPinAnnotationView
+        pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseId)
+        pinView?.pinTintColor = UIColor.orange
+        pinView?.canShowCallout = true
+        
+        let smallSquare = CGSize(width: 30, height: 30)
+        let button = UIButton(frame: CGRect(origin: CGPoint.zero, size: smallSquare))
+        button.setBackgroundImage(UIImage(named: "walk"), for: .normal)
+        button.addTarget(self, action: #selector(handleMapView), for: .touchUpInside)
+        pinView?.leftCalloutAccessoryView = button
+        
+        return pinView
+        
+    }
+    
+    
+    
+    @objc func handleMapView(){
+        // get the coordinates from the selectedPin and request the direction
+        
+        let selectedPinCoordinate = selectedPin?.coordinate ?? CLLocationCoordinate2D(latitude: 0, longitude: 0)
+        
+        requestRoute(endLocation: selectedPinCoordinate)
+        
+        print("requested route for searched pin")
+        
+        cancelButton.isHidden = false
+        showInARButton.isHidden = false
+        
+    }
+    
     
     
 
 
 }
-
-
- 
-
-
 
 extension SCNGeometry {
     class func line(from vector1: SCNVector3, to vector2: SCNVector3) -> SCNGeometry {
@@ -980,5 +1041,32 @@ extension SCNGeometry {
         
         return SCNGeometry(sources: [source], elements: [element])
     }
+}
+
+extension ViewController: HandleMapSearch {
+    
+    func dropPinZoomIn(placemark: MKPlacemark) {
+        
+        //cache the pin
+        selectedPin = placemark
+        //clear existing pins
+        mapView.removeAnnotations(mapView.annotations)
+        
+        let annotation = MKPointAnnotation()
+        annotation.coordinate = placemark.coordinate
+        annotation.title = placemark.name
+        if let city = placemark.locality{
+             annotation.subtitle = "\(city)"
+        }
+        
+        mapView.addAnnotation(annotation)
+        
+        let span = MKCoordinateSpan.init(latitudeDelta: 0.01, longitudeDelta: 0.01)
+        let region = MKCoordinateRegion.init(center: placemark.coordinate, span: span)
+        mapView.setRegion(region, animated: true)
+        
+        
+    }
+    
 }
 

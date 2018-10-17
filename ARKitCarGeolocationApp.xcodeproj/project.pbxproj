@@ -20,6 +20,7 @@
 		5B72DE472165EBA6002B8956 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B72DE462165EBA6002B8956 /* Location.swift */; };
 		5B72DE492165FD3A002B8956 /* LocationNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B72DE482165FD3A002B8956 /* LocationNode.swift */; };
 		5B72DE4B216614B3002B8956 /* Annotations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B72DE4A216614B3002B8956 /* Annotations.swift */; };
+		5BC8E12B2177200B0045BC37 /* LocationSearchTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC8E12A2177200B0045BC37 /* LocationSearchTable.swift */; };
 		5BD84DDB2170B116005EC173 /* DynamicGeometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD84DDA2170B116005EC173 /* DynamicGeometry.swift */; };
 		5BD84DDD2170B559005EC173 /* SceneKitUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD84DDC2170B559005EC173 /* SceneKitUtils.swift */; };
 		5BD84DE121746F41005EC173 /* SCNNode Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD84DE021746F41005EC173 /* SCNNode Extension.swift */; };
@@ -41,6 +42,7 @@
 		5B72DE462165EBA6002B8956 /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
 		5B72DE482165FD3A002B8956 /* LocationNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationNode.swift; sourceTree = "<group>"; };
 		5B72DE4A216614B3002B8956 /* Annotations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Annotations.swift; sourceTree = "<group>"; };
+		5BC8E12A2177200B0045BC37 /* LocationSearchTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchTable.swift; sourceTree = "<group>"; };
 		5BD84DDA2170B116005EC173 /* DynamicGeometry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicGeometry.swift; sourceTree = "<group>"; };
 		5BD84DDC2170B559005EC173 /* SceneKitUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneKitUtils.swift; sourceTree = "<group>"; };
 		5BD84DE021746F41005EC173 /* SCNNode Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SCNNode Extension.swift"; sourceTree = "<group>"; };
@@ -91,6 +93,7 @@
 				5BD84DDA2170B116005EC173 /* DynamicGeometry.swift */,
 				5BD84DDC2170B559005EC173 /* SceneKitUtils.swift */,
 				5BD84DE021746F41005EC173 /* SCNNode Extension.swift */,
+				5BC8E12A2177200B0045BC37 /* LocationSearchTable.swift */,
 				5B72DE442163559C002B8956 /* art.scnassets */,
 				5B1607A42163441800904920 /* Main.storyboard */,
 				5B1607AA2163441900904920 /* Assets.xcassets */,
@@ -242,6 +245,7 @@
 				5B1607A32163441800904920 /* ViewController.swift in Sources */,
 				5BD84DDD2170B559005EC173 /* SceneKitUtils.swift in Sources */,
 				5B1607A12163441800904920 /* AppDelegate.swift in Sources */,
+				5BC8E12B2177200B0045BC37 /* LocationSearchTable.swift in Sources */,
 				5BD84DDB2170B116005EC173 /* DynamicGeometry.swift in Sources */,
 				5B72DE4B216614B3002B8956 /* Annotations.swift in Sources */,
 				5B72DE3F2163538C002B8956 /* FloationPoint+Extension.swift in Sources */,
