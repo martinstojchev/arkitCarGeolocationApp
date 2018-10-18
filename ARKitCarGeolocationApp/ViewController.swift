@@ -40,6 +40,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
     
     var pointPositions: [SCNVector3] = []
     var locationPoints: [Location] = []
+    var customLocations: [Location] = []
     var distances: [CLLocationDistance] = []
      // using for calculating distances between points
     var currentLocationForDistance: CLLocation!
@@ -235,15 +236,29 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
         let soborenHram = Location(latitude: 41.9963565, longitude: 21.4272423, heading: 0, instructions: "Soboren hram")
         self.updateLocation(soborenHram.latitude, soborenHram.longitude, soborenHram.instructions)
         //print("soboren hram updateLocation called")
+        customLocations.append(soborenHram)
         let finki = Location(latitude: 42.004104256225155, longitude: 21.40970349311829, heading: 0, instructions: "FINKI")
         self.updateLocation(finki.latitude, finki.longitude, finki.instructions)
-        
+        customLocations.append(finki)
         
         self.status = "All location pinned on the map"
         
         sceneView.isHidden = false
         statusTextView.isHidden = false
         showMapButton.isHidden = false
+    }
+    
+    func calculateDistanceFromMyLocation(toLocation location: CLLocation) -> Float {
+        
+        
+        let userLocation = CLLocation(latitude: usersCurrenLocation.latitude, longitude: usersCurrenLocation.longitude)
+        let endLocation  = CLLocation(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
+        
+        
+         let distanceFromUser = Float(endLocation.distance(from: userLocation))
+        
+        return distanceFromUser
+        
     }
     
     func calculateDistanceBetweenPoints(locations: [Location]){
@@ -279,10 +294,10 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
                 
             }
             
-            for distance in distances {
-                
-                print(distance)
-            }
+//            for distance in distances {
+//
+//                print(distance)
+//            }
             
             
         }
@@ -369,12 +384,26 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
         }
         else if (instructions != ""){
             //custom text node
+            var distanceFromMe = calculateDistanceFromMyLocation(toLocation: location)
+            var metricsForCustomDistance = "m"
+            
+            if(distanceFromMe > 1000){
+                distanceFromMe = distanceFromMe / 1000
+                metricsForCustomDistance = "km"
+            }
+            else{
+                metricsForCustomDistance = "m"
+            }
+            let distanceString = String(format: "%.2f", distanceFromMe)
+            let showingDistanceString = "\(distanceString)\(metricsForCustomDistance)"
+            
+            
             print("custom text node")
             arrow = makeBillboardNode("🏠".image()!)
             
             isCustomNode = true
             
-            let text = instructions
+            let text = "\(instructions) \(showingDistanceString)"
             
             let geometry = SCNText(string: text, extrusionDepth: 0.01)
             //geometry.alignmentMode = convertFromCATextLayerAlignmentMode(CATextLayerAlignmentMode.center)
