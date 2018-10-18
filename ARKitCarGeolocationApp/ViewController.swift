@@ -30,7 +30,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
     var resultSearchController: UISearchController? = nil
     var selectedPin: MKPlacemark? = nil
     
-    
+    var metricsForDistance: String = "m"
     let locationManager = CLLocationManager()
     var userLocation = CLLocation()
     var modelNode: SCNNode!
@@ -140,7 +140,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
     func setStatusText(){
         
         var text = "Status: \(status!)\n"
-        text += "Distance: \(String(format: "%.2f m", distance))"
+        text += "Distance: \(String(format: "%.2f \(metricsForDistance)", distance))"
         statusTextView.text = text
         
     }
@@ -884,7 +884,18 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
         // Calculate and display the distance between user's location and end point location
         let currentLocation = CLLocation(latitude: userLocation.coordinate.latitude, longitude: userLocation.coordinate.longitude)
         let endPoint = CLLocation(latitude: endPointCoordinates.latitude, longitude: endPointCoordinates.longitude)
-        self.distance = Float(endPoint.distance(from: currentLocation))
+        
+        var distanceForDisplay: Float = 0.0
+        distanceForDisplay = Float(endPoint.distance(from: currentLocation))
+        if(distanceForDisplay > 1000.0){
+            distanceForDisplay = distanceForDisplay / 1000
+            metricsForDistance = "km"
+        }
+        else {
+            metricsForDistance = "m"
+        }
+        
+        self.distance = distanceForDisplay
         
         if (usersCurrenLocation.latitude == 0 && usersCurrenLocation.longitude == 0) {
             usersCurrenLocation = CLLocationCoordinate2D(latitude: userLocation.coordinate.latitude, longitude: userLocation.coordinate.longitude)
