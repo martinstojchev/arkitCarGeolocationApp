@@ -957,10 +957,12 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
     
     @IBAction func showAR(_ sender: Any) {
         
-        print("showAR method:  annotationsOnMap count: \(annotationsOnMap.count)")
-        for annotation in annotationsOnMap {
-            print("annotation step: \(annotation.locationName), annotationCoordinates: \(annotation.coordinate) ")
-        }
+        
+        print("showAR root node: \(sceneView.scene.rootNode)")
+        //print("showAR method:  annotationsOnMap count: \(annotationsOnMap.count)")
+//        for annotation in annotationsOnMap {
+//            print("annotation step: \(annotation.locationName), annotationCoordinates: \(annotation.coordinate) ")
+//        }
         //show the ARCamera
         mapView.isHidden = true
         cancelButton.isHidden = true
@@ -971,6 +973,8 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
         
         
         self.getLocationsForAR()
+        
+        
 
         
     }
