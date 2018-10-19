@@ -47,6 +47,24 @@
                                     <action selector="showAR:" destination="BYZ-38-t0r" eventType="touchUpInside" id="e65-mw-Lf9"/>
                                 </connections>
                             </button>
+                            <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="18" translatesAutoresizingMaskIntoConstraints="NO" id="Bu4-j3-8bm">
+                                <rect key="frame" x="16" y="576" width="248.5" height="31"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Show custom locations:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tjE-tn-gr5">
+                                        <rect key="frame" x="0.0" y="5.5" width="181.5" height="20.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="DSs-6M-ys0">
+                                        <rect key="frame" x="199.5" y="0.0" width="51" height="31"/>
+                                        <rect key="contentStretch" x="0.0" y="0.0" width="0.29999999999999999" height="0.75"/>
+                                        <connections>
+                                            <action selector="switchStateChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="2gC-LM-skP"/>
+                                        </connections>
+                                    </switch>
+                                </subviews>
+                            </stackView>
                             <arscnView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Sxh-Wx-cbD">
                                 <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                             </arscnView>
@@ -74,10 +92,12 @@
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="uhd-nu-GkC" secondAttribute="bottom" id="18u-71-WPE"/>
                             <constraint firstAttribute="trailing" secondItem="Sxh-Wx-cbD" secondAttribute="trailing" id="1Uh-nq-T0q"/>
+                            <constraint firstItem="XKu-os-rOs" firstAttribute="top" secondItem="Bu4-j3-8bm" secondAttribute="bottom" constant="10" id="Boq-zH-syq"/>
                             <constraint firstItem="uWa-st-8sC" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="FUL-kX-y0B"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="uWa-st-8sC" secondAttribute="trailing" id="Jzb-to-PfG"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="XKu-os-rOs" secondAttribute="bottom" constant="20" id="R4Z-QY-TYi"/>
                             <constraint firstItem="ydk-ro-Qjm" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="Yjr-aE-8GF"/>
+                            <constraint firstItem="Bu4-j3-8bm" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="ej7-aZ-N4s"/>
                             <constraint firstItem="uWa-st-8sC" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="f7d-Wb-1Gl"/>
                             <constraint firstItem="Sxh-Wx-cbD" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="gHp-b9-IxT"/>
                             <constraint firstAttribute="bottomMargin" secondItem="Sxh-Wx-cbD" secondAttribute="bottom" id="hO4-vL-DYV"/>
@@ -103,6 +123,7 @@
                         <outlet property="showInARButton" destination="DeB-ha-QDH" id="Ugz-Jo-J9Z"/>
                         <outlet property="showMapButton" destination="ydk-ro-Qjm" id="iHt-bm-wy3"/>
                         <outlet property="statusTextView" destination="uWa-st-8sC" id="RlN-My-YJN"/>
+                        <outlet property="switchButton" destination="DSs-6M-ys0" id="mUk-uU-Beg"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

@@ -26,6 +26,9 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
     @IBOutlet weak var statusTextView: UITextView!
     @IBOutlet weak var myPositionButton: UIButton!
     @IBOutlet weak var showMapButton: UIButton!
+    @IBOutlet weak var switchButton: UISwitch!
+    
+    
     
     var resultSearchController: UISearchController? = nil
     var selectedPin: MKPlacemark? = nil
@@ -206,9 +209,11 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
     
     func getLocationsForAR(){
         
-        
+        if(!switchButton.isOn){
         annotationsOnMap.removeFirst()
+        }
         
+        print("annotationsOnMap count: \(annotationsOnMap.count)")
         for annotation in annotationsOnMap {
             let location = Location(latitude: annotation.coordinate.latitude,
                                     longitude: annotation.coordinate.longitude,
@@ -224,7 +229,9 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
             self.heading = location.getHeading()
             
             let latitude = location.getLatitude()
+            //print("location latitude: \(latitude)")
             let longitude = location.getLongitude()
+            //print("location longitude: \(longitude)")
             let instructions = location.getInstructions()
             
             self.updateLocation(latitude, longitude, instructions)
@@ -232,20 +239,34 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
             
         }
         
-        //custom location pin
-        let soborenHram = Location(latitude: 41.9963565, longitude: 21.4272423, heading: 0, instructions: "Soboren hram")
-        self.updateLocation(soborenHram.latitude, soborenHram.longitude, soborenHram.instructions)
-        //print("soboren hram updateLocation called")
-        customLocations.append(soborenHram)
-        let finki = Location(latitude: 42.004104256225155, longitude: 21.40970349311829, heading: 0, instructions: "FINKI")
-        self.updateLocation(finki.latitude, finki.longitude, finki.instructions)
-        customLocations.append(finki)
+        
         
         self.status = "All location pinned on the map"
         
         sceneView.isHidden = false
         statusTextView.isHidden = false
         showMapButton.isHidden = false
+    }
+    
+    func customLocationDemo() {
+        
+        print("cutomLocationDemo called")
+        //custom location pin
+        let soborenHramCoordinate = CLLocationCoordinate2D(latitude: 41.9963565, longitude: 21.4272423)
+        let soborenHram = MyAnnotations(title: "", locationName: "Soboren Hram", discipline: "", coordinate: soborenHramCoordinate)
+        //let soborenHram = Location(latitude: 41.9963565, longitude: 21.4272423, heading: 0, instructions: "Soboren hram")
+        //self.updateLocation(soborenHram.latitude, soborenHram.longitude, soborenHram.instructions)
+        //print("soboren hram updateLocation called")
+        annotationsOnMap.append(soborenHram)
+        
+        let finkiCoordinate = CLLocationCoordinate2D(latitude: 42.004104256225155, longitude: 21.40970349311829)
+        let finki = MyAnnotations(title: "", locationName: "FINKI", discipline: "", coordinate: finkiCoordinate)
+        //let finki = Location(latitude: 42.004104256225155, longitude: 21.40970349311829, heading: 0, instructions: "FINKI")
+        //self.updateLocation(finki.latitude, finki.longitude, finki.instructions)
+        annotationsOnMap.append(finki)
+        
+        self.getLocationsForAR()
+    
     }
     
     func calculateDistanceFromMyLocation(toLocation location: CLLocation) -> Float {
@@ -293,13 +314,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
                 }
                 
             }
-            
-//            for distance in distances {
-//
-//                print(distance)
-//            }
-            
-            
+        
         }
         
     }
@@ -997,13 +1012,14 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
     
     @IBAction func showAR(_ sender: Any) {
         
+        if switchButton.isOn{
+         
+          customLocationDemo()
+        }
+        else {
+            self.getLocationsForAR()
+        }
         
-        print("showAR root node: \(sceneView.scene.rootNode)")
-        //print("showAR method:  annotationsOnMap count: \(annotationsOnMap.count)")
-//        for annotation in annotationsOnMap {
-//            print("annotation step: \(annotation.locationName), annotationCoordinates: \(annotation.coordinate) ")
-//        }
-        //show the ARCamera
         mapView.isHidden = true
         cancelButton.isHidden = true
         showInARButton.isHidden = true
@@ -1012,7 +1028,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
         myPositionButton.isHidden = true
         
         
-        self.getLocationsForAR()
+        
         
         
 
@@ -1067,6 +1083,20 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
         
         cancelButton.isHidden = false
         showInARButton.isHidden = false
+        
+    }
+    
+    
+    @IBAction func switchStateChanged(_ sender: Any) {
+        
+        print("Switch state changed: \(switchButton.isOn)")
+        if (switchButton.isOn){
+            
+            showInARButton.isHidden = false
+        }
+        else {
+            showInARButton.isHidden = true
+        }
         
     }
     
